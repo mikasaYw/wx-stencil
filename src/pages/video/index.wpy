@@ -1,0 +1,130 @@
+<style lang="less">
+	.container {
+		// background-color: #eee;
+        // padding-top: 20rpx;
+        .videoView{
+            width: 750rpx;
+        }
+        .index{
+            position: absolute;
+            z-index: 100;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            text-align: center;
+            top: 10rpx;
+            color: white;
+            font-size: 15pt;
+        }
+        .video-swiper,.video-swiper-item{
+            width: 100%;
+            height: 100%;
+        }
+        .videoView video{
+            width: 750rpx;
+            height: 100%;
+            position: relative;
+            z-index: 1;
+            vertical-align: middle;
+        }
+        // ::-webkit-scrollbar{
+        //     width: 0;
+        //     height: 0;
+        //     color: transparent;
+        // }
+	}
+</style>
+
+<template>
+	<div class="container">
+        <view class='videoView' style='height:{{systemInfo.windowHeight}}px'>
+            <swiper class='video-swiper' vertical="true" bindchange='changeVideoSwiper' current='{{videoSwiperCurrent}}'>
+                <block wx:for="{{videoList}}" wx:key="videoswiper" wx:for-item='videos' wx:for-index='videoIdx'>
+                    <swiper-item class='video-swiper-item'>
+                    <view class='index'>当前视频:{{videos.video_id}}{{videoIdx + 1}}</view>
+                    <block wx:if="{{videoSwiperCurrent==videoIdx}}">
+                        <video id="myvideo{{videoSwiperCurrent}}" objectFit='contain' autoplay='{{true}}' loop='{{loop}}' src='{{videos.video_url}}' custom-cache="{{false}}" show-center-play-btn='{{false}}'></video>
+                    </block>
+                    <block wx:else>
+                        <video id="myvideo" objectFit='contain' autoplay='{{false}}' src='{{videos.video_url}}' custom-cache="{{false}}" show-center-play-btn='{{false}}'></video>
+                    </block>
+                    </swiper-item>
+                </block>
+            </swiper>
+        </view>
+	</div>
+</template>
+
+<script>
+	import wepy from '@wepy/core'
+	import { mapState, mapActions } from '@wepy/x';
+	import store from '@/store';
+	import login from '@/mixins/login'
+
+
+	wepy.page({
+		store,
+		data: {
+            nowVideo: '',
+            default_avatar: '',
+            systemInfo:{},
+            videoSwiperCurrent:0,
+            videoList: [
+                {
+                    video_id: 'mpVideo',
+                    video_url: 'http://qvod.yiche.com/48848f91vodtransgzp1251489075/626128ba5285890794165823559/v.f40.mp4?626128ba5285890794165823559',
+                }, 
+                {
+                    video_id: 'hotspace',
+                    video_url: 'http://qvod.yiche.com/da39c774vodtranscq1251489075/723a81935285890794138071674/v.f40.mp4?723a81935285890794138071674',
+                }, 
+            ],
+		},
+
+		watch: {
+		
+		},
+
+		methods: {
+            changeVideoSwiper(e) {
+                var videoList = this.videoList;
+                if (e.$wx.detail.source == 'touch') {
+                    console.log(e.$wx.detail.current);
+                    if (e.$wx.detail.current == videoList.length - 1) {
+                        console.log("快到底了");
+                        var vdata = {
+                        //传到服务器的信息
+                        }
+                        this.getList(vdata);
+                    }
+                    this.videoSwiperCurrent = e.$wx.detail.current
+                }
+            },
+            getList(vdata) {
+                var videoList = this.videoList;
+                videoList=videoList.concat(videoList);
+                this.videoList = videoList
+            },
+		},
+
+		computed: {
+
+		},
+
+		created () {
+
+		},
+		onLoad(options) {
+            var systemInfo=wx.getSystemInfoSync();
+            this.systemInfo = systemInfo;
+            this.getList();
+		},
+    });
+</script>
+<config>
+	{
+		navigationBarTitleText: '个人中心',
+		usingComponents: {
+		}
+	}
+</config>

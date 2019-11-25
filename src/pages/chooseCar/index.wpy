@@ -1,0 +1,201 @@
+<style lang="less">
+scroll-view {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.masterBrand-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 90rpx;
+
+}
+// .masterBrand-item:last-child {
+//     border-bottom: none;
+// }
+.masterBrand-item image {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.brandName {
+  font-size: 28rpx;
+  color: #333;
+  margin-left: 15rpx;
+}
+
+.popup-cont {
+  width: 80%;
+  box-shadow: -6rpx 0 18rpx 6rpx #d8d8d8;/*for Android*/
+  -webkit-box-shadow: -3px 0 9px 3px #d8d8d8;/*for IOS*/
+}
+.piece {
+    padding: 30rpx 30rpx;
+    .piece-title {
+        margin-bottom: 30rpx;
+    }
+    .piece-chunk {
+        display: flex;
+        .chunk {
+            flex: 0 1 20%;
+            text-align: center;
+            .carImg {
+                width: 100%;
+                height: 100rpx;
+            }
+            .text-brand {
+            }
+        }
+
+    }
+}
+
+</style>
+
+<template>
+    <div class="container">
+        <div style="height: 100%;position: relative;">
+            <i-index 
+                height="100%">
+                <view class="slot">
+                    <y-swiper type="dot" padd="30rpx" :imgList="imgList"></y-swiper>
+                    <view class="piece">
+                        <view class="piece-title">常用品牌</view>
+                        <view class="piece-chunk">
+                            <view class="chunk" v-for="item in imgList" :key="item">
+                                <image class="carImg" mode="aspectFit" :src="item"/>
+                                <view class="text-brand">奔驰</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                
+                <i-index-item 
+                    wx:for="{{carTypeList}}" 
+                    wx:for-index="index" 
+                    wx:key="{{index}}" 
+                    wx:for-item="item" 
+                    name="{{item.groupName}}">
+                    <block 
+                        wx:for="{{item.masterBrands}}" 
+                        wx:for-index="in" 
+                        wx:key="{{in}}" 
+                        wx:for-item="item">
+                    <view
+                        class="masterBrand-item"
+                        bindtap='onChosenBrand' 
+                        data-item='{{item}}'>
+                        <image lazy-load mode="aspectFit" src="{{item.logoUrl}}"/>
+                        <text class='brandName'>{{item.masterBrandName}}</text>
+                    </view>
+                    </block>
+                </i-index-item>
+            </i-index>
+            <popup
+                show="{{ show }}"
+                position="right"
+                custom-class="popup-cont"
+                overlay-style="background:rgba(255, 255, 255, 0.1)"
+                bindclose="onClose">
+                    <i-index-item 
+                        wx:for="{{carTypeList}}" 
+                        wx:for-index="index" 
+                        wx:key="{{index}}" 
+                        wx:for-item="item" 
+                        name="{{item.groupName}}">
+                        <block 
+                            wx:for="{{item.masterBrands}}" 
+                            wx:for-index="in" 
+                            wx:key="{{in}}" 
+                            wx:for-item="item">
+                            <view
+                                class="masterBrand-item"                                   
+                                bindtap='onChosenBrand' 
+                                data-item='{{item}}'>
+                                <image lazy-load mode="aspectFit" src="{{item.logoUrl}}"/>
+                                <text class='brandName'>{{item.masterBrandName}}</text>
+                            </view>
+                        </block>
+                    </i-index-item>
+            </popup>
+        </div>
+    </div>
+</template>
+
+<script>
+	import wepy from '@wepy/core'
+	import eventHub from '@/common/eventHub';
+	import { mapState, mapActions } from '@wepy/x';
+	import store from '@/store';
+
+	wepy.page({
+		store,
+		hooks: {
+			// Page 级别 hook, 只对当前 Page 的 setData 生效。
+		//   'before-setData': function (dirty) {
+		//     if (Math.random() < 0.2) {
+		//       console.log('setData canceled');
+		//       return false; // Cancel setData
+		//     }
+		//     dirty.time = +new Date();
+		//     return dirty;
+		//   }
+		},
+
+		data: {
+            show: false,
+            carTypeList: [],
+            imgList: ['/image/aaaa.jpeg','/image/aaaa.jpeg','/image/aaaa.jpeg','/image/aaaa.jpeg','/image/aaaa.jpeg'],
+		},
+
+		watch: {
+			get_reqMasterBrands (res) {
+                res = res.data.data;
+                this.carTypeList =  res.brandList;
+			}
+		},
+		methods: {
+            onChosenBrand(event) {
+                // var item = event.currentTarget.dataset.item
+                // storgeUtil.setChosenBrand(item, (res) => {
+                //   wx.navigateBack()
+                // })
+                this.show = true;
+
+            },
+            onClose() {
+                this.show = false;
+            },
+			...mapActions([
+				'reqMasterBrands',
+			])
+		},
+
+		computed: {
+			...mapState([ 
+				'get_reqMasterBrands'
+			]),
+		},
+
+        onLoad(options) {
+            this.reqMasterBrands();
+        },
+
+        onTabItemTap(item) {
+			eventHub.$emit('scrollToTop')
+		}
+    });
+
+</script>
+<config>
+	{
+		navigationBarTitleText: '',
+		usingComponents: {
+            "y-swiper": "../../components/y-swiper",
+            "i-index": "../../components/carList/index/index",
+            "i-index-item": "../../components/carList/index-item/index",
+            "popup": "module:vant-weapp/dist/popup"
+		}
+	}
+</config>

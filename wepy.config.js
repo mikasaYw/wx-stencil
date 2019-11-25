@@ -1,12 +1,14 @@
 const path = require('path');
+const PluginUglifyjs = require('@wepy/plugin-uglifyjs');
+
 var prod = process.env.NODE_ENV === 'production';
 
 module.exports = {
   wpyExt: '.wpy',
-  eslint: true,
   cliLogs: !prod,
   build: {
   },
+  static: 'src/image',
   resolve: {
     alias: {
       counter: path.join(__dirname, 'src/components/counter'),
@@ -25,13 +27,16 @@ module.exports = {
         '@babel/preset-env'
       ],
       plugins: [
-        '@wepy/babel-plugin-import-regenerator'
+        '@wepy/babel-plugin-import-regenerator',
       ]
     }
   },
-  plugins: [],
+  plugins: [
+    PluginUglifyjs({
+      // options
+    })
+  ],
   appConfig: {
     noPromiseAPI: ['createSelectorQuery']
   }
 }
-

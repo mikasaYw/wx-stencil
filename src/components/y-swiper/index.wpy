@@ -1,0 +1,114 @@
+<style lang="less">
+    .swiper-container {
+        position: relative;
+        .sw-item {
+            height: 100%;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+            .sw-img {
+                height: 100%;
+                width: 100%;
+            }
+        }   
+        .custom-text {
+            padding: 3rpx 17rpx;
+            background-color: rgba(0, 0, 0, .5);
+            border-radius: 30rpx;
+            color: #fff;
+            font-size: 24rpx;
+            position: absolute;
+            right: 7%;
+            bottom: 10%;
+        }
+        .custom-dot {
+            position: absolute;
+            right: 7%;
+            bottom: 10%;
+            .dot {
+                display: inline-block;
+                width: 14rpx;
+                height: 14rpx;
+                background-color: rgba(0, 0, 0, 0.5);
+                border-radius: 50%;
+                margin-right: 10rpx;
+            }
+            .active {
+                width: 37rpx;
+                border-radius: 20rpx;
+                transition: all .2s;
+            }
+        }
+    }
+</style>
+<template>
+    <view class="swiper-container">
+        <swiper :style="{height: height}" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" current="{{current}}" interval="2000" bindchange="onChangeCurrent">
+            <block wx:for="{{imgList}}" wx:key="index">
+                <swiper-item>
+                    <view class="sw-item" :style="{padding: padd}">
+                        <image class="sw-img" mode="scaleToFill" src="{{item}}"/>
+                    </view>
+                </swiper-item>
+            </block>
+        </swiper>
+        <block v-if="type == 'text'">
+            <text class="custom-text">{{current + 1}}/{{imgListLength}}</text>
+        </block>
+        <block v-if="type == 'dot'">
+            <view class="custom-dot">
+                <text class="dot {{index == current ? 'active' : ''}}" wx:for="{{imgList}}" wx:key="index"></text>
+            </view>
+        </block>
+    </view>
+</template>
+<script>
+  import wepy from '@wepy/core';
+
+  wepy.component({
+    data: {
+        current: 0
+    },
+    props: {
+        type: {
+            type: String,
+            required: true  
+        },
+        imgList: {
+            type: Array,
+            require: true,
+        },
+        indicatorDots: {
+            type: Boolean,
+            default: false
+        },
+        autoplay: {
+            type: Boolean,
+            default: false
+        },
+        /**
+         * 调节swiper高度 以及 内边距
+         */
+        height: {
+            type: String,
+            default: '',
+        },
+        padd: {
+            type: String,
+            default: '0'
+        }
+    },
+    
+    methods: {
+        onChangeCurrent(e) {
+            this.current = e.$wx.detail.current;
+        }
+    },
+    
+    computed: {
+        imgListLength() {
+            return this.imgList.length
+        }
+    },
+  });
+</script>

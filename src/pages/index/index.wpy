@@ -1,0 +1,244 @@
+<style lang="less">
+	.container {
+		// background-color: #eee;
+		padding-top: 20rpx;
+	}
+	.card {
+		width: 93%;
+		margin: 0 auto;
+		padding: 47rpx;
+		border-radius: 10rpx;
+		box-sizing: border-box;
+		background-color: #fff;
+		box-shadow: 0 6px 12px #ebedf0;	/*for Android*/
+  		-webkit-box-shadow: 0 6px 12px #ebedf0;	/*for IOS*/
+		.userinfo {
+			display: flex;
+			justify-content: space-between;
+			.userinfo-avatar {
+				width: 150rpx;
+				height: 150rpx;
+				border-radius: 100%;
+			}
+		}
+	}
+
+	.figure {
+		text-align: center;
+		.figure-icon {
+			width: 100rpx;
+			height: 100rpx;
+			border-radius: 100%;
+		}
+	}
+</style>
+
+<template>
+	<div class="container">
+		<div class="card">
+			<div class="userinfo">
+				<div>
+					<text>{{userInfo.nickName}}</text>
+					<view>北京易车科技有限公司</view>
+					<view>销售经理</view>
+				</div>
+				<image class="userinfo-avatar" mode="aspectFit" :src="userInfo.avatarUrl || default_avatar"/>
+				<!-- <button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+				<button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">获取手机号</button>
+				<button @tap="addPhone">添加联系人</button> -->
+			</div>
+			<div>
+				
+			</div>
+		</div>
+
+
+		<view bindtap="chooseRegion">请选择</view>
+		<select-area
+			region-value="{{regionValue}}"
+			show-region="{{showRegion}}"
+			bind:myevent="emitHideRegion">
+		</select-area>
+
+		<van-cell-group>
+			<van-field
+				value="{{ sms }}"
+				center="true"
+				clearable="true"
+				label="姓名"
+				placeholder="请输入姓名">
+			</van-field>
+			<!-- <van-field
+				value="{{ sms }}"
+				center="true"
+				clearable="true"
+				label="公司"
+				placeholder="请输入公司">
+			</van-field>
+			<van-field
+				value="{{ sms }}"
+				center="true"
+				clearable="true"
+				label="职位"
+				placeholder="请输入职位">
+			</van-field>
+			<van-field
+				value="{{ sms }}"
+				center="true"
+				clearable="true"
+				label="手机"
+				placeholder="请输入手机"
+				use-button-slot="true">
+				<van-button slot="button" size="small" type="primary">获取微信手机号</van-button>
+			</van-field>
+			<van-field
+				value="{{ sms }}"
+				center="true"
+				clearable="true"
+				label="微信"
+				placeholder="请输入微信"
+				use-button-slot="true">
+				<van-button slot="button" size="small" type="primary">同手机号</van-button>
+			</van-field>
+
+			<van-cell title-width="90px" is-link="true">
+				<view slot="title">
+					<view>单元格</view>
+				</view>
+				<view style="text-align: left;">
+					<view>1111</view>
+				</view>
+			</van-cell> -->
+		</van-cell-group>
+
+		<input type="text" placeholder="是否闪烁震动"/>
+
+		<y-figure>
+			<view class="figure" v-for="(item, index) in figureList" :key="index">
+				<image class="figure-icon" mode="scaleToFill" src="/image/aaaa.jpeg"/>
+				<view>添加通讯录</view>
+			</view>
+		</y-figure>
+	</div>
+</template>
+
+<script>
+	import wepy from '@wepy/core'
+	import { mapState, mapActions } from '@wepy/x';
+	import store from '@/store';
+	import login from '@/mixins/login'
+
+
+	wepy.page({
+		store,
+		hooks: {
+			// Page 级别 hook, 只对当前 Page 的 setData 生效。
+		//   'before-setData': function (dirty) {
+		//     if (Math.random() < 0.2) {
+		//       console.log('setData canceled');
+		//       return false; // Cancel setData
+		//     }
+		//     dirty.time = +new Date();
+		//     return dirty;
+		//   }
+		},
+
+		mixins: [login],
+
+		data: {
+			userInfo: null,
+			canIUse: wx.canIUse('button.open-type.getUserInfo'),
+			default_avatar: '',
+			name: 'mikasa',
+			phone: '13588888888',
+			regionValue: [],
+			showRegion: false,
+			sms: '',
+			figureList: [
+				{imgUrl: "/image/aaaa.jpeg", title: '添加通讯录'},
+				{imgUrl: "/image/aaaa.jpeg", title: '添加通讯录'},
+				{imgUrl: "/image/aaaa.jpeg", title: '添加通讯录'},
+				{imgUrl: "/image/aaaa.jpeg", title: '添加通讯录'},
+				{imgUrl: "/image/aaaa.jpeg", title: '添加通讯录'},
+			]
+		},
+
+		watch: {
+			get_carSourceDetail: (res) => {
+				console.log(res)
+			}
+		},
+
+		methods: {
+			chooseRegion: function() {
+				this.showRegion = true
+			},
+			emitHideRegion: function(e) {
+				this.showRegion = e.detail.showRegion;
+				this.regionValue = e.detail.regionValue;
+			},
+			addPhone() {
+				// 添加通讯录
+				// wx.addPhoneContact({
+				// 	firstName: this.name,//联系人姓名
+				// 	mobilePhoneNumber: this.phone,//联系人手机号
+				// })
+				wx.addPhoneContact({
+					firstName:'钢丝球',
+					mobilePhoneNumber:'17600100069',
+					weChatNumber:'jmg20080808',
+					success(res) { 
+						console.log(1)
+					}
+				})
+				this.onChangeCurrent
+			},
+			...mapActions([
+				'carSourceDetail',
+			])
+		},
+
+
+		computed: {
+			...mapState([ 
+				'get_carSourceDetail' 
+			]),
+		},
+
+		created () {
+			// this.carSourceDetail();
+			if (this.$app.$options.globalData.userInfo) {
+				this.userInfo = this.$app.$options.globalData.userInfo;
+			} else if (this.canIUse) {
+				// 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+				// 所以此处加入 callback 以防止这种情况
+				this.$app.$options.userInfoReadyCallback = res => {
+					this.userInfo = res.userInfo;
+				}
+			} else {
+				// 在没有 open-type=getUserInfo 版本的兼容处理
+				wx.getUserInfo({
+					success: res => {
+						this.$app.$options.globalData.userInfo = this.userInfo = res.userInfo;
+					}
+				})
+			};
+		},
+		onLoad(options) {
+			this.default_avatar = this.$app.$options.globalData.default_avatar;
+		},
+	});
+</script>
+<config>
+	{
+		navigationBarTitleText: '个人中心',
+		usingComponents: {
+			"y-figure":"../../components/y-figure",
+			"van-field":"module:vant-weapp/dist/field",
+			"van-cell":"module:vant-weapp/dist/cell",
+			"van-cell-group":"module:vant-weapp/dist/cell-group",
+			"van-icon":"module:vant-weapp/dist/icon",
+			"van-button":"module:vant-weapp/dist/button",
+		}
+	}
+</config>

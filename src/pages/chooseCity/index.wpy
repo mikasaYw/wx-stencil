@@ -1,0 +1,160 @@
+<style lang="less">
+scroll-view {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.masterBrand-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 90rpx;
+}
+
+// .masterBrand-item:last-child {
+//     border-bottom: none;
+// }
+
+.masterBrand-item image {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.brandName {
+  font-size: 28rpx;
+  color: #333;
+  margin-left: 15rpx;
+}
+.icon {
+    width: 36rpx;
+    height: 36rpx;
+    border: 1rpx solid #ccc;
+    margin-right: 30rpx;
+    border-radius: 100%;
+}
+.i-noChecked {
+    width: 0;
+    opacity: 0;
+}
+.i-isChecked {
+    transition: all .3s;
+    margin-right: 29rpx;
+}
+</style>
+
+<template>
+    <div class="container">
+        <div style="height: 100%;position: relative;">
+            <i-index 
+                height="100%">
+                <i-index-item 
+                    wx:for="{{carTypeList}}" 
+                    wx:for-index="index" 
+                    wx:key="{{index}}" 
+                    wx:for-item="item" 
+                    name="{{item.groupName}}">
+                    <block 
+                        wx:for="{{item.masterBrands}}" 
+                        wx:for-index="in" 
+                        wx:key="{{in}}" 
+                        wx:for-item="item">
+                        <view
+                            class="masterBrand-item"
+                            @tap="onChangeChecked"
+                            data-item='{{item}}'>
+                            <block>
+                                <i v-if="!item.isChecked" class="icon"></i>
+                                <icon class="{{item.isChecked ? 'i-isChecked' : 'i-noChecked'}}" type="success" size="20"/>
+                            </block>
+                            <image lazy-load mode="aspectFit" src="{{item.logoUrl}}" />
+                            <text class='brandName'>{{item.masterBrandName}}</text>
+                        </view>
+                    </block>
+                </i-index-item>
+            </i-index>
+        </div>
+    </div>
+</template>
+
+<script>
+	import wepy from '@wepy/core'
+	// import eventHub from '../common/eventHub';
+	import { mapState, mapActions } from '@wepy/x';
+	import store from '@/store';
+
+	wepy.page({
+		store,
+		hooks: {
+			// Page 级别 hook, 只对当前 Page 的 setData 生效。
+		//   'before-setData': function (dirty) {
+		//     if (Math.random() < 0.2) {
+		//       console.log('setData canceled');
+		//       return false; // Cancel setData
+		//     }
+		//     dirty.time = +new Date();
+		//     return dirty;
+		//   }
+		},
+
+		data: {
+            carTypeList: [],
+		},
+
+		watch: {
+			get_reqMasterBrands (res) {
+                res = res.data.data;
+                this.carTypeList = res.brandList.map(item => {
+                    item.masterBrands.map(items => {
+                        items.isChecked = true
+                    })
+                    return item
+                })
+			}
+		},
+		methods: {
+            onChangeChecked(e) {
+                this.carTypeList = this.carTypeList.map(item => {
+                    item.masterBrands.map(items => {
+                        if (e.$wx.currentTarget.dataset.item.masterBrandId === items.masterBrandId) {
+                            items.isChecked = !items.isChecked
+                            console.log(items)
+                        }
+                    })
+                    return item
+                })
+
+            },
+            onChosenBrand(event) {
+                // var item = event.currentTarget.dataset.item
+                // storgeUtil.setChosenBrand(item, (res) => {
+                //   wx.navigateBack()
+                // })
+                // console.log(event)
+
+            },
+			...mapActions([
+				'reqMasterBrands',
+			])
+		},
+
+		computed: {
+			...mapState([ 
+				'get_reqMasterBrands'
+			]),
+        },
+
+        onLoad(options) {
+            this.reqMasterBrands()
+        },
+    });
+
+</script>
+<config>
+	{
+		navigationBarTitleText: '',
+		usingComponents: {
+            "i-index": "../../components/carList/index/index",
+            "i-index-item": "../../components/carList/index-item/index",
+		}
+	}
+</config>

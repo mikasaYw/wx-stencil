@@ -1,0 +1,38 @@
+<style lang="less">
+    .figure-container {
+        display: flex;
+        justify-content: space-between;
+        font-size: 24rpx;
+        color: #333;
+        width: 90%;
+        margin: 0 auto;
+        margin-top: 30rpx;
+        padding: 30rpx;
+        border-radius: 10rpx;
+		box-sizing: border-box;
+		background-color: #fff;
+		box-shadow: 0 6px 12px #ebedf0;	/*for Android*/
+  		-webkit-box-shadow: 0 6px 12px #ebedf0;	/*for IOS*/
+    }
+</style>
+<template>
+    <view class="figure-container">
+        <slot></slot>
+    </view>
+</template>
+<script>
+  import wepy from '@wepy/core';
+
+  wepy.component({
+    data: {
+
+    },
+    props: {
+    
+    },
+    
+    methods: {
+
+    },
+  });
+</script>

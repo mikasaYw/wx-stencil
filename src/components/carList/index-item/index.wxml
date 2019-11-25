@@ -1,0 +1,9 @@
+<view class="i-index-item i-class">
+    <view style="background: #eee;height: 7px"></view>
+    <view style="padding: 20rpx 50rpx;">
+        <view class="i-index-item-header">{{name}}</view>
+        <view class="i-index-item-content">
+            <slot></slot>
+        </view>
+    </view>
+</view>
