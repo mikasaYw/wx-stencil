@@ -31,12 +31,17 @@ module.exports = {
       ]
     }
   },
-  plugins: [
-    PluginUglifyjs({
-      // options
-    })
-  ],
+  plugins: [],
   appConfig: {
     noPromiseAPI: ['createSelectorQuery']
   }
+}
+
+// 压缩js
+if (prod) {
+  module.exports.plugins = [
+    PluginUglifyjs({
+      // options
+    })
+  ]
 }

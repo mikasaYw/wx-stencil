@@ -1,0 +1,102 @@
+<style lang="less">
+	.videoSlide {
+        .videoView{
+            width: 750rpx;
+            .video-swiper, .video-swiper-item{
+                width: 100%;
+                height: 100%;
+                video {
+                    width: 100%;
+                    height: 100%;
+                    position: relative;
+                }
+            }
+        }
+	}
+</style>
+
+<template>
+	<div class="videoSlide">
+        <view class='videoView' style='height:{{systemInfo.windowHeight}}px'>
+            <swiper class='video-swiper' vertical="true" bindchange='changeVideoSwiper' current='{{videoSwiperCurrent}}'>
+                <block wx:for="{{videoList}}" wx:key="videoIdx" wx:for-item='videos' wx:for-index='videoIdx'>
+                    <swiper-item class='video-swiper-item'>
+                        <!-- 当前 上下 video -->
+                        <block wx:if="{{videoSwiperCurrent == videoIdx || videoSwiperCurrent == videoIdx + 1 || videoSwiperCurrent == videoIdx - 1}}">
+                            <video id="myVideo{{videoIdx}}" src='{{videos.video_url}}' objectFit='cover' auto-pause-if-open-native="{{true}}" enable-play-gesture="{{true}}" autoplay='{{videoSwiperCurrent == videoIdx}}' loop='{{true}}' show-progress="{{false}}" show-fullscreen-btn="{{false}}" play-btn-position="center"></video>
+                        </block>
+                    </swiper-item>
+                </block>
+            </swiper>
+        </view>
+	</div>
+</template>
+
+<script>
+	import wepy from '@wepy/core'
+	import { mapState, mapActions } from '@wepy/x';
+	import store from '@/store';
+	import login from '@/mixins/login'
+
+	wepy.page({
+		store,
+		data: {
+            default_avatar: '',
+            systemInfo: {},
+            videoSwiperCurrent: 0,
+            videoList: [
+                {
+                    video_id: 'mpVideo',
+                    video_url: 'http://qvod.yiche.com/48848f91vodtransgzp1251489075/626128ba5285890794165823559/v.f40.mp4?626128ba5285890794165823559',
+                }, 
+                {
+                    video_id: 'hotspace',
+                    video_url: 'http://qvod.yiche.com/da39c774vodtranscq1251489075/723a81935285890794138071674/v.f40.mp4?723a81935285890794138071674',
+                }, 
+                {
+                    video_id: 'hotspace',
+                    video_url: 'http://qvod.yiche.com/48848f91vodtransgzp1251489075/626128ba5285890794165823559/v.f40.mp4?626128ba5285890794165823559',
+                }, 
+            ],
+        },
+        
+		methods: {
+            changeVideoSwiper(e) {
+                if (e.$wx.detail.source == 'touch') {
+                    this.videoSwiperCurrent = e.$wx.detail.current;
+
+                    // 设置 autoplay 为当前时 临近节点的播放设置
+                    if (this.videoList[this.videoSwiperCurrent - 1]) {
+                        let videoContextCurrentPre = wx.createVideoContext(`myVideo${this.videoSwiperCurrent - 1}`)
+                        videoContextCurrentPre.stop();
+                    }
+                    if (this.videoList[this.videoSwiperCurrent]) {
+                        let videoContextCurrent = wx.createVideoContext(`myVideo${this.videoSwiperCurrent}`)
+                        videoContextCurrent.play();
+                    }
+                    if (this.videoList[this.videoSwiperCurrent + 1]) {
+                        let videoContextCurrentNext = wx.createVideoContext(`myVideo${this.videoSwiperCurrent + 1}`)
+                        videoContextCurrentNext.stop();
+                    }
+                    if (e.$wx.detail.current == this.videoList.length - 1) {
+                        // this.getList();
+                    }
+                }
+            },
+            getList() {
+                this.videoList = this.videoList.concat(this.videoList);
+            },
+        },
+        
+		onLoad(options) {
+            this.systemInfo = wx.getSystemInfoSync();
+		},
+    });
+</script>
+<config>
+	{
+		navigationBarTitleText: '个人中心',
+		usingComponents: {
+		}
+	}
+</config>

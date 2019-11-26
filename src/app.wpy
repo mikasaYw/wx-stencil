@@ -68,7 +68,8 @@ wepy.app({
 <config>
 {
     pages: [
-      'pages/index/index',
+      'pages/videoSlide/index',
+      'pages/index/index'
     ],
     window: {
       backgroundTextStyle: 'light',
