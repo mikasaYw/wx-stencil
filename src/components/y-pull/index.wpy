@@ -1,0 +1,70 @@
+<style lang="less">
+    .popup-cont {
+        height: 60%;
+        width: 100%;
+        border-top-left-radius: 30rpx;
+        border-top-right-radius: 30rpx;
+    }
+    .aaa {
+        padding: 40px;
+    }
+</style>
+<template>
+    <van-popup
+        show="{{ show }}"
+        position="bottom"
+        overlay-style="background:rgba(0, 0, 0, 0.7)"
+        custom-class="popup-cont"
+        bindclose="onClose">
+            <pulltorefresh-view style="height:100%" nomore="{{nomore}}" disablePullDown="{{true}}" bindloadmore="loadmoreData">
+                <slot></slot>
+            </pulltorefresh-view>
+    </van-popup>
+</template>
+<script>
+  import wepy from '@wepy/core';
+
+  wepy.component({
+    data: {
+        show: true,
+        refreshing: false,
+        nomore: false,
+        aaa: [1,2,3,4,5]
+
+    },
+    props: {
+        type: {
+            type: String,
+            required: false  
+        },
+        show: {
+            type: Boolean,
+            default: false
+        }
+    },
+    
+    methods: {
+        loadmoreData: function () {
+            this.refreshing = true;
+            setTimeout(() => {
+                this.aaa = [...this.aaa, 8,9,10],
+
+                this.refreshing = false;
+            }, 1000);
+        },
+        onClose(e) {
+            this.show = false;
+            this.$emit('emitHidePull', this.show)
+        }
+    },
+
+  });
+</script>
+<config>
+	{
+		usingComponents: {
+            "van-popup": "module:vant-weapp/dist/popup",
+            "pulltorefresh-view": "../../components/wx-pulltorefresh-view/wx-pulltorefresh-view"
+		}
+	}
+</config>

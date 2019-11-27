@@ -92,7 +92,7 @@ scroll-view {
                     </block>
                 </i-index-item>
             </i-index>
-            <popup
+            <van-popup
                 show="{{ show }}"
                 position="right"
                 custom-class="popup-cont"
@@ -118,7 +118,7 @@ scroll-view {
                             </view>
                         </block>
                     </i-index-item>
-            </popup>
+            </van-popup>
         </div>
     </div>
 </template>
@@ -195,7 +195,7 @@ scroll-view {
             "y-swiper": "../../components/y-swiper",
             "i-index": "../../components/carList/index/index",
             "i-index-item": "../../components/carList/index-item/index",
-            "popup": "module:vant-weapp/dist/popup"
+            "van-popup": "module:vant-weapp/dist/popup"
 		}
 	}
 </config>

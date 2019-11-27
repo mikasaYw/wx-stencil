@@ -52,7 +52,7 @@
 			</div>
 		</div>
 
-
+		<view bindtap="onOpenPull">局部上拉加载</view>
 		<view bindtap="chooseRegion">请选择</view>
 		<select-area
 			region-value="{{regionValue}}"
@@ -68,7 +68,7 @@
 				label="姓名"
 				placeholder="请输入姓名">
 			</van-field>
-			<!-- <van-field
+			<van-field
 				value="{{ sms }}"
 				center="true"
 				clearable="true"
@@ -108,10 +108,9 @@
 				<view style="text-align: left;">
 					<view>1111</view>
 				</view>
-			</van-cell> -->
+			</van-cell>
 		</van-cell-group>
 
-		<input type="text" placeholder="是否闪烁震动"/>
 
 		<y-figure>
 			<view class="figure" v-for="(item, index) in figureList" :key="index">
@@ -119,6 +118,13 @@
 				<view>添加通讯录</view>
 			</view>
 		</y-figure>
+
+
+		<y-pull :show="showPull" @emitHidePull="emitHidePull">
+
+		</y-pull>
+
+
 	</div>
 </template>
 
@@ -153,6 +159,7 @@
 			phone: '13588888888',
 			regionValue: [],
 			showRegion: false,
+			showPull: false,
 			sms: '',
 			figureList: [
 				{imgUrl: "/image/aaaa.jpeg", title: '添加通讯录'},
@@ -177,6 +184,12 @@
 				this.showRegion = e.detail.showRegion;
 				this.regionValue = e.detail.regionValue;
 			},
+			onOpenPull() {
+				this.showPull = true
+			},
+			emitHidePull(e) {
+				this.showPull = e;
+			},
 			addPhone() {
 				// 添加通讯录
 				// wx.addPhoneContact({
@@ -197,7 +210,6 @@
 				'carSourceDetail',
 			])
 		},
-
 
 		computed: {
 			...mapState([ 
@@ -234,6 +246,7 @@
 		navigationBarTitleText: '个人中心',
 		usingComponents: {
 			"y-figure":"../../components/y-figure",
+			"y-pull":"../../components/y-pull",
 			"van-field":"module:vant-weapp/dist/field",
 			"van-cell":"module:vant-weapp/dist/cell",
 			"van-cell-group":"module:vant-weapp/dist/cell-group",
