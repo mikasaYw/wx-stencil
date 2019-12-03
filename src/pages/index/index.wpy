@@ -51,6 +51,7 @@
 				
 			</div>
 		</div>
+		<button open-type="share" hover-class="none">分享好友</button
 
 		<view bindtap="onOpenPull">局部上拉加载</view>
 		<view bindtap="chooseRegion">请选择</view>
@@ -177,6 +178,14 @@
 		},
 
 		methods: {
+			onShareAppMessage: function (res) {
+				//设置分享参数
+				return {
+					title: '小程序',
+					path: '/pages/chooseCar/index'
+				}
+
+			},
 			chooseRegion: function() {
 				this.showRegion = true
 			},
@@ -237,13 +246,14 @@
 			};
 		},
 		onLoad(options) {
+			wx.hideShareMenu()
 			this.default_avatar = this.$app.$options.globalData.default_avatar;
 		},
 	});
 </script>
 <config>
 	{
-		navigationBarTitleText: '个人中心',
+		navigationBarTitleText: '个人中心个人中心个人中心个人中心',
 		usingComponents: {
 			"y-figure":"../../components/y-figure",
 			"y-pull":"../../components/y-pull",

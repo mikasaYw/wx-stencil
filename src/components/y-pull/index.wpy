@@ -16,8 +16,10 @@
         overlay-style="background:rgba(0, 0, 0, 0.7)"
         custom-class="popup-cont"
         bindclose="onClose">
-            <pulltorefresh-view style="height:100%" nomore="{{nomore}}" disablePullDown="{{true}}" bindloadmore="loadmoreData">
-                <slot></slot>
+            <pulltorefresh-view style="height:100%" nomore="{{nomore}}" refreshing="{{refreshing}}" disablePullDown="{{true}}" bindloadmore="loadmoreData">
+                <view v-for="item in aaa" style="height: 100px">
+                    {{item}}
+                </view>
             </pulltorefresh-view>
     </van-popup>
 </template>
@@ -27,8 +29,8 @@
   wepy.component({
     data: {
         show: true,
-        refreshing: false,
         nomore: false,
+        refreshing: false,
         aaa: [1,2,3,4,5]
 
     },
@@ -47,7 +49,7 @@
         loadmoreData: function () {
             this.refreshing = true;
             setTimeout(() => {
-                this.aaa = [...this.aaa, 8,9,10],
+                this.aaa = [...this.aaa, 8,9,10];
 
                 this.refreshing = false;
             }, 1000);
