@@ -3,11 +3,11 @@
 
 base: wepy2.0 + vant
 
-测试打包
-# npm run dev
+# 测试打包
+    npm run dev
 
-线上打包（压缩）
-# npm run build
+# 线上打包（压缩）
+    npm run build
 
 include: 
     
