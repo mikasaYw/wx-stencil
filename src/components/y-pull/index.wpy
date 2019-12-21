@@ -65,7 +65,7 @@
 <config>
 	{
 		usingComponents: {
-            "van-popup": "module:vant-weapp/dist/popup",
+            "van-popup": "module:@vant/weapp/dist/popup",
             "pulltorefresh-view": "../../components/wx-pulltorefresh-view/wx-pulltorefresh-view"
 		}
 	}

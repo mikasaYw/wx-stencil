@@ -16,9 +16,9 @@
   "author": "yinwei1 <yinwei1.@yiche.com>",
   "license": "MIT",
   "dependencies": {
+    "@vant/weapp": "^1.0.0-beta.6",
     "@wepy/core": "^2.0.0-alpha.9",
-    "@wepy/x": "^2.0.2",
-    "vant-weapp": "^0.5.23"
+    "@wepy/x": "^2.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.1.0",

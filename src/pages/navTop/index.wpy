@@ -1,0 +1,194 @@
+<style lang="less">
+@import url('../../../assets/style/index');
+    .container {
+        background-color: @text-color-3366FF !important;
+        padding: 0 50rpx 30rpx 50rpx;
+        overflow: hidden;
+    }
+	.custom-bg {
+        background-color: @text-color-3366FF !important;
+        background-color: var(--nav-bar-background-color,@text-color-3366FF) !important;
+        .van-nav-bar__title {
+            color: @text-color-ffffff;
+            font-size: 34rpx;
+        }
+        .van-icon-arrow-left {
+            font-size: 24px !important;
+            font-size: var(--nav-bar-arrow-size,24px) !important;
+            color: @text-color-ADB2BD !important;
+            color: var(--nav-bar-text-color,@text-color-ADB2BD) !important;
+        }
+        .van-nav-bar__left {
+            bottom: -8px;
+        }
+    }
+    .chunk {
+        position: relative;
+        background-color: @text-color-ffffff;
+        border-radius: 20rpx;
+        padding: 60rpx 45rpx;
+        font-size: 28rpx;
+        color: @text-color-525764;
+        text-align: center;
+        .title {
+            color: @text-color-333333;
+            font-size: 32rpx;
+            font-weight: bold;
+        }
+        .ask-success {
+            width: 396rpx;
+            height: 196rpx;
+        }
+        .ask-des {
+            width: 410rpx;
+            height: 88rpx;
+        }
+        .ask-phone {
+            width: 433rpx;
+            height: 550rpx;
+        }
+        .ask-capsule {
+            width: 140rpx;
+            height: 53rpx;
+            vertical-align: top;
+            margin-left: 40rpx;
+            margin-top: -7rpx;
+        }
+        .steps {
+            margin: 60rpx 0 43rpx 0;
+            /*步骤描述*/
+            .li {
+                font-size: 28rpx;
+                text-align: left;
+                position: relative;
+                padding-left: 56rpx;
+                height: 142rpx;
+                color: @text-color-525764;
+            }
+            /*步骤数字*/
+            .li:before {
+                content: attr(data-beforeContent);
+                display: block;
+                width: 40rpx;
+                height: 40rpx;
+                line-height: 36rpx;
+                font-size: 28rpx;
+                color: @text-color-3366FF;
+                background-color: rgba(51, 102, 255, .1);
+                box-sizing: border-box;
+                border-radius: 100%;
+                border:-moz-calc(1px / 2) solid @text-color-3366FF;
+                border:-webkit-calc(1px / 2) solid @text-color-3366FF;
+                border:calc(1px / 2) solid @text-color-3366FF;
+                text-align: center;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+            /*连接线*/
+            .li:after {
+                content: "";
+                width: 1px;
+                height: 102rpx;
+                background-color: @text-color-3366FF;
+                position: absolute;
+                left: 20rpx;
+                top: 40rpx;
+                transform: scaleX(.5);
+            }
+            .li:last-child::after {
+                content: none;
+            }
+        }
+
+    }
+    .link {
+        display: flex;
+        justify-content: space-between;
+        position: absolute;
+        top: -57rpx;
+        left: 0;
+        right: 0;
+        padding: 0 50rpx;
+        text-align: center;
+        .icon-link {
+            width: 50rpx;
+            height: 84rpx;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAABUBAMAAAAyvHnFAAAAJ1BMVEUAAADQ1/XN1vTO1vPN1vPO1/PO1/T////////N1vPz9fzg5vfR2vRHuojrAAAACHRSTlMAU4rz3NmlBVilCAUAAAD7SURBVEjH7ZaxDcIwEEVDGloKhJQubQagSEnFAFQuKd1RZAgrVIBAOmCAsAGMwFbE9l2+mxsAyVf9pydFjov7Lopivtqt94eCJ8UljbOZDLCkMDWLBJsYz2yAM+JZBJFgJ3HrRYqVxJMXKVqJNy9SNESPof8QXb1IsaXn4Fz/pUswwDHe3TgvMUBDbx+P8jWgpcHHXk4ArMiFkVMDO47yp8CZRLkdYBPjdKPAMsaaTYoxspgwm2yyyebvjbr59G2pb1h9K+ub3HKU7Q80HKUxgC1XhLQMsOVaEQM0XEXyNaDl+pITACuuPD41UG9avZ31RtdfAfrLQX9t/ABUv36vD/P2JQAAAABJRU5ErkJggg==')no-repeat;
+            background-size: 100% 100%;
+        }
+    }
+</style>
+
+<template>
+<div class="container">
+    <van-nav-bar
+        title="车销通总部（综）"
+        left-arrow="true"
+        fixed="{{true}}"
+        border="{{false}}"
+        bind:click-left="onClickLeft"
+        custom-class="custom-bg"
+    />
+
+    <view class="chunk" :style="{'margin-top': statusH + 'px', 'margin-bottom': '30rpx'}">
+        <image class="ask-success" src="/assets/image/ask_success.png" mode="aspectFit" />
+        <view class="title">询价成功</view>
+        <view style="margin: 30rpx 0 50rpx 0;">销售人员会尽快联系您，请耐心等待</view>
+        <van-button color="#3366FF" custom-class="btn-default" hover-class="none" custom-style="width: 560rpx;box-shadow: 0 10px 20px 0 rgba(67,114,255,0.30);">返回汽车微展厅</van-button>
+    </view>
+    <view class="chunk">
+        <image class="ask-des" src="/assets/image/ask_des.png" mode="aspectFit" />
+        <view class="steps">
+            <view class="li" data-beforeContent="1">
+                <view>
+                    点击右上角
+                    <image class="ask-capsule" src="/assets/image/capsule.png" mode="aspectFit" />
+                </view>
+            </view>
+            <view class="li" data-beforeContent="2">
+                <view>点击<text style="color: #3366FF">【添加到我的小程序】</text></view>
+            </view>
+            <view class="li" data-beforeContent="3">
+                <view>下拉微信快速进入<text style="color: #3366FF">【汽车微展厅】</text></view>
+            </view>
+        </view>
+        <image class="ask-phone" src="/assets/image/ask_phone.png" mode="aspectFit" />
+        <view class="link">
+            <icon class="icon-link"></icon>
+            <icon class="icon-link"></icon>
+        </view>
+    </view>
+</div>
+</template>
+
+<script>
+	import wepy from '@wepy/core'
+
+
+	wepy.page({
+		data: {
+            statusH: 40
+		},
+		methods: {
+			
+        },
+		onLoad(options) {
+            wx.getSystemInfo({
+                success: res => {
+                    this.statusH = res.statusBarHeight + 76
+                }
+            })
+		},
+	});
+</script>
+<config>
+	{
+        navigationStyle: 'custom',
+        backgroundColor: '#3366FF',
+		usingComponents: {
+            "van-nav-bar": "module:@vant/weapp/dist/nav-bar",
+            "van-button": "module:@vant/weapp/dist/button",
+		}
+	}
+</config>

@@ -51,7 +51,7 @@
 				
 			</div>
 		</div>
-		<button open-type="share" hover-class="none">分享好友</button
+		<button open-type="share" hover-class="none">分享好友</button>
 
 		<view bindtap="onOpenPull">局部上拉加载</view>
 		<view bindtap="chooseRegion">请选择</view>
@@ -257,11 +257,11 @@
 		usingComponents: {
 			"y-figure":"../../components/y-figure",
 			"y-pull":"../../components/y-pull",
-			"van-field":"module:vant-weapp/dist/field",
-			"van-cell":"module:vant-weapp/dist/cell",
-			"van-cell-group":"module:vant-weapp/dist/cell-group",
-			"van-icon":"module:vant-weapp/dist/icon",
-			"van-button":"module:vant-weapp/dist/button",
+			"van-field":"module:@vant/weapp/dist/field",
+			"van-cell":"module:@vant/weapp/dist/cell",
+			"van-cell-group":"module:@vant/weapp/dist/cell-group",
+			"van-icon":"module:@vant/weapp/dist/icon",
+			"van-button":"module:@vant/weapp/dist/button",
 		}
 	}
 </config>

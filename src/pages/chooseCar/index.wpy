@@ -195,7 +195,7 @@ scroll-view {
             "y-swiper": "../../components/y-swiper",
             "i-index": "../../components/carList/index/index",
             "i-index-item": "../../components/carList/index-item/index",
-            "van-popup": "module:vant-weapp/dist/popup"
+            "van-popup": "module:@vant/weapp/dist/popup"
 		}
 	}
 </config>
