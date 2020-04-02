@@ -17,7 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "@vant/weapp": "^1.0.0-beta.6",
-    "@wepy/core": "^2.0.0-alpha.9",
+    "@wepy/core": "^2.0.0-alpha.14",
     "@wepy/x": "^2.0.2"
   },
   "devDependencies": {
