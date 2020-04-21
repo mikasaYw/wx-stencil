@@ -8,7 +8,7 @@ module.exports = {
   cliLogs: !prod,
   build: {
   },
-  static: 'src/image',
+  static: ['src/image', 'sitemap.json'],
   resolve: {
     alias: {
       counter: path.join(__dirname, 'src/components/counter'),
@@ -38,10 +38,10 @@ module.exports = {
 }
 
 // 压缩js
-if (prod) {
-  module.exports.plugins = [
-    PluginUglifyjs({
-      // options
-    })
-  ]
-}
+// if (prod) {
+//   module.exports.plugins = [
+//     PluginUglifyjs({
+//       // options
+//     })
+//   ]
+// }
