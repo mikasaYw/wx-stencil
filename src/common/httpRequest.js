@@ -2,7 +2,7 @@ import store from '@/store';
 import { url } from './url';
 
 let API_URL = '';
-
+ 
 
 const codeMessage = {
   400: '发出的请求有错误，请求的格式不正确。',
