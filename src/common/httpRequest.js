@@ -3,13 +3,6 @@ import { url } from './url';
 
 let API_URL = '';
 
-API_URL = 'http://cxtapi2.easypass.cn/api/' // 灰度
-
-// API_URL = 'http://test.cxtapi.easypass.cn/api/' // 测试
-
-if (prod_env) {
-    API_URL = 'https://cxtapi.easypass.cn/api/' // 线上
-}
 
 const codeMessage = {
   400: '发出的请求有错误，请求的格式不正确。',
